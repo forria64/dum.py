@@ -1,20 +1,20 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="dumpy",
-    version="1.0-beta",
+    name="dumpy",  # Name of the package
+    version="1.0-beta",  # Version of the package
     description="A Python tool for analyzing and summarizing text files in AI workflows.",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     author="forria",
     author_email="forria@forria64.space",
-    url="https://github.com/forria64/dumpy",
+    url="https://github.com/forria64/dum.py",
     packages=find_packages(),
-    py_modules=["dumpy"],  # Refers to `dum.py`
+    py_modules=["dumpy"],  # Refers to the main module file `dumpy.py`
     install_requires=open("requirements.txt").readlines(),
     entry_points={
         "console_scripts": [
-            "dumpy=dumpy.dum:main",  # Links `dum.py`'s `main()` as a command-line script
+            "dumpy=dum:main",  # Links `dum.py`'s `main()` as a command-line script
         ],
     },
     classifiers=[

@@ -28,8 +28,10 @@ FEATURES
     
 INSTALLATION
 
-    pipx install "https://github.com/forria64/dum.py" --include-deps
+    git clone https://github.com/forria64/dum.py;
+    cd dum.py
+    pipx install .
 
 USAGE
 
-    dum.py <dataset directory>
+    dumpy <dataset directory>
