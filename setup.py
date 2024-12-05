@@ -14,7 +14,7 @@ setup(
     install_requires=open("requirements.txt").readlines(),
     entry_points={
         "console_scripts": [
-            "dum=dum:main",  # Links `dum.py`'s `main()` as a command-line script
+            "dumpy=dumpy:main",  # Links `dum.py`'s `main()` as a command-line script
         ],
     },
     classifiers=[
