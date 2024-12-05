@@ -8,13 +8,13 @@ setup(
     long_description_content_type="text/markdown",
     author="forria",
     author_email="forria@forria64.space",
-    url="https://github.com/forria64/dum.py",
+    url="https://github.com/forria64/dumpy",
     packages=find_packages(),
     py_modules=["dumpy"],  # Refers to `dum.py`
     install_requires=open("requirements.txt").readlines(),
     entry_points={
         "console_scripts": [
-            "dumpy=dumpy:main",  # Links `dum.py`'s `main()` as a command-line script
+            "dumpy=dumpy.dum:main",  # Links `dum.py`'s `main()` as a command-line script
         ],
     },
     classifiers=[
