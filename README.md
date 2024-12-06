@@ -4,7 +4,7 @@
 ▒▒   ▒▒ ▒▒    ▒▒ ▒▒ ▒▒▒▒ ▒▒    ▒▒▒▒▒▒    ▒▒▒▒   
 ▓▓   ▓▓ ▓▓    ▓▓ ▓▓  ▓▓  ▓▓    ▓▓         ▓▓    
 ██████   ██████  ██      ██ ██ ██         ██    
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~v1.0-beta
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~v1.1-beta
 A Python tool for analyzing and summarizing text files,
 designed to streamline AI workflows by identifying,
 validating, and summarizing text files within a directory.

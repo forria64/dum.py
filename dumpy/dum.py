@@ -14,6 +14,10 @@ def is_text_file(file_path):
     Returns:
         bool: True if the file is a text file, False otherwise.
     """
+    # Check if the file has a `.rs` extension
+    if file_path.endswith('.rs'):
+        return True
+
     mime_type, _ = mimetypes.guess_type(file_path)
     if mime_type and not mime_type.startswith('text/'):
         return False
@@ -27,6 +31,7 @@ def is_text_file(file_path):
         print(f"Error reading file {file_path}: {e}")
         return False
     return True
+
 
 def collect_text_files(directory_path):
     """
