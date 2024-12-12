@@ -28,9 +28,12 @@ FEATURES
     
 INSTALLATION
 
-    git clone https://github.com/forria64/dum.py;
-    cd dum.py
-    pipx install .
+    REQUIRED PACKAGES:
+        -git
+        -python3
+        -pipx
+    RUN:
+        pipx install git+https://github.com/forria64/dum.py.git#egg=dumpy
 
 USAGE
 
