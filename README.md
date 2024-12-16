@@ -4,7 +4,7 @@
 ▒▒   ▒▒ ▒▒    ▒▒ ▒▒ ▒▒▒▒ ▒▒    ▒▒▒▒▒▒    ▒▒▒▒   
 ▓▓   ▓▓ ▓▓    ▓▓ ▓▓  ▓▓  ▓▓    ▓▓         ▓▓    
 ██████   ██████  ██      ██ ██ ██         ██    
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~v1.1-beta
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~v1.2-beta
 A Python tool for analyzing and summarizing text files,
 designed to streamline AI workflows by identifying,
 validating, and summarizing text files within a directory.
@@ -21,7 +21,7 @@ FEATURES
     2. Dataset Preparation: Automates the discovery and validation
     of text files for AI workflows.
 
-    3. Summarized Output: Generates a code_summary.txt file containing 
+    3. Summarized Output: Copies or generates a file containing 
     the content of all valid text files for quick reference or preprocessing.
     
     4. Error Handling: Handles unreadable files gracefully and logs errors.
@@ -36,5 +36,8 @@ INSTALLATION
         pipx install git+https://github.com/forria64/dum.py.git#egg=dumpy
 
 USAGE
-
-    dumpy <dataset directory>
+        dumpy <dataset_directory> [-f output_file.txt]
+        
+    By default, if -f is not provided, the concatenated contents are copied to clipboard 
+    and the user is notified in the terminal.
+    If -f is provided, the concatenated contents are written to the specified file.

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="dumpy",  # Package name
-    version="1.1-beta",  # Version
+    version="1.2-beta",  # Version
     description="A Python tool for summarizing code files.",
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",

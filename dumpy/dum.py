@@ -1,6 +1,7 @@
 import mimetypes
 import os
 import sys
+import pyperclip
 
 def is_text_file(file_path):
     """
@@ -46,34 +47,58 @@ def collect_text_files(directory_path):
                 text_files.append(relative_path)
     return text_files
 
-def write_code_summary(directory_path, text_files):
+def generate_summary(directory_path, text_files):
     """
-    Writes a summary of text files and their content to a 'code_summary.txt' file.
-    """
-    summary_path = os.path.join(directory_path, 'code_summary.txt')
-    with open(summary_path, 'w', encoding='utf-8', errors='replace') as summary_file:
-        for relative_path in text_files:
-            absolute_file_path = os.path.join(directory_path, relative_path)
-            summary_file.write(f"File: {relative_path}\n")
-            summary_file.write(f"{'-' * 80}\n")
-            try:
-                with open(absolute_file_path, 'r', encoding='utf-8', errors='replace') as text_file:
-                    summary_file.write(text_file.read())
-            except Exception as e:
-                summary_file.write(f"Error reading file: {e}\n")
-            summary_file.write(f"\n{'=' * 80}\n\n")
+    Generates a summary string of all text files and their contents.
     
-    return summary_path
+    Args:
+        directory_path (str): The directory containing the text files.
+        text_files (list): List of relative paths to text files.
+    
+    Returns:
+        str: The concatenated summary content.
+    """
+    summary_content = []
+    for relative_path in text_files:
+        absolute_file_path = os.path.join(directory_path, relative_path)
+        summary_content.append(f"File: {relative_path}")
+        summary_content.append('-' * 80)
+        try:
+            with open(absolute_file_path, 'r', encoding='utf-8', errors='replace') as text_file:
+                summary_content.append(text_file.read())
+        except Exception as e:
+            summary_content.append(f"Error reading file: {e}")
+        summary_content.append('=' * 80)
+        summary_content.append('')  # Blank line after each file's content
+    return "\n".join(summary_content)
+
 
 def main():
     """
     Main function to execute the script. 
+    
+    Usage:
+        python dum.py <directory> [-f output_file.txt]
+        
+    By default, if -f is not provided, the concatenated contents are copied to clipboard 
+    and the user is notified in the terminal.
+    If -f is provided, the concatenated contents are written to the specified file.
     """
     if len(sys.argv) < 2:
-        print("Usage: python collect_text_files.py <relative_path_to_directory>")
+        print("Usage: python dum.py <relative_path_to_directory> [-f output_file.txt]")
         sys.exit(1)
 
+    # Parse arguments
     relative_directory_path = sys.argv[1]
+    output_file = None
+    if "-f" in sys.argv:
+        f_index = sys.argv.index("-f")
+        if f_index + 1 < len(sys.argv):
+            output_file = sys.argv[f_index + 1]
+        else:
+            print("Error: -f flag provided but no file specified.")
+            sys.exit(1)
+
     absolute_directory_path = os.path.abspath(relative_directory_path)
 
     if not os.path.isdir(absolute_directory_path):
@@ -81,9 +106,17 @@ def main():
         sys.exit(1)
 
     text_files = collect_text_files(absolute_directory_path)
-    summary_file_path = write_code_summary(absolute_directory_path, text_files)
-    
-    print(f"Code summary written to: {os.path.abspath(summary_file_path)}")
+    summary_content = generate_summary(absolute_directory_path, text_files)
+
+    if output_file:
+        # Write concatenated contents to the specified file
+        with open(output_file, 'w', encoding='utf-8', errors='replace') as out_f:
+            out_f.write(summary_content)
+        print(f"Concatenated contents written to: {os.path.abspath(output_file)}")
+    else:
+        # Copy concatenated contents to clipboard
+        pyperclip.copy(summary_content)
+        print("Concatenated contents have been copied to the clipboard.")
 
 if __name__ == "__main__":
     main()
