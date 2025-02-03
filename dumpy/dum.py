@@ -2,6 +2,7 @@ import mimetypes
 import os
 import sys
 import pyperclip
+import fnmatch
 
 def is_text_file(file_path):
     """
@@ -50,13 +51,27 @@ def load_gitignore_patterns(directory_path):
 
 
 def is_ignored(relative_path, ignore_patterns):
+    """
+    Determines if a given relative path matches any of the ignore patterns.
+    
+    Args:
+        relative_path (str): The file or directory path relative to the root.
+        ignore_patterns (list): List of ignore patterns.
+    
+    Returns:
+        bool: True if the path should be ignored, False otherwise.
+    """
+    # Normalize the path to use forward slashes.
     norm_path = relative_path.replace(os.sep, "/")
     for pattern in ignore_patterns:
         if pattern.endswith("/"):
+            # For directory patterns, remove the trailing slash.
             pat = pattern.rstrip("/")
-            if norm_path == pat or norm_path.startswith(pat + "/"):
+            # Check if any component of the path equals the pattern.
+            if pat in norm_path.split("/"):
                 return True
         else:
+            # For other patterns, try matching against the full path or its basename.
             if fnmatch.fnmatch(norm_path, pattern) or fnmatch.fnmatch(os.path.basename(norm_path), pattern):
                 return True
     return False
