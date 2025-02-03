@@ -33,18 +33,62 @@ def is_text_file(file_path):
         return False
     return True
 
+def load_gitignore_patterns(directory_path):
+    patterns = []
+    gitignore_path = os.path.join(directory_path, ".gitignore")
+    if os.path.exists(gitignore_path):
+        try:
+            with open(gitignore_path, "r") as f:
+                for line in f:
+                    line = line.strip()
+                    if line == "" or line.startswith("#"):
+                        continue
+                    patterns.append(line)
+        except Exception as e:
+            print(f"Error reading .gitignore: {e}")
+    return patterns
+
+
+def is_ignored(relative_path, ignore_patterns):
+    norm_path = relative_path.replace(os.sep, "/")
+    for pattern in ignore_patterns:
+        if pattern.endswith("/"):
+            pat = pattern.rstrip("/")
+            if norm_path == pat or norm_path.startswith(pat + "/"):
+                return True
+        else:
+            if fnmatch.fnmatch(norm_path, pattern) or fnmatch.fnmatch(os.path.basename(norm_path), pattern):
+                return True
+    return False
+
+
 
 def collect_text_files(directory_path):
     """
-    Recursively collects all text files in a directory.
+    Recursively collects all text files in a directory,
+    while excluding files and directories specified in .gitignore.
+    
+    Args:
+        directory_path (str): The root directory to search.
+    
+    Returns:
+        list: List of relative paths to text files.
     """
+    ignore_patterns = load_gitignore_patterns(directory_path)
     text_files = []
-    for root, _, files in os.walk(directory_path):
+    for root, dirs, files in os.walk(directory_path):
+        rel_root = os.path.relpath(root, directory_path)
+        if rel_root == ".":
+            rel_root = ""
+        # Exclude ignored directories from traversal
+        dirs[:] = [d for d in dirs if not is_ignored(os.path.join(rel_root, d) if rel_root else d, ignore_patterns)]
         for file in files:
+            rel_file = os.path.join(rel_root, file) if rel_root else file
+            if is_ignored(rel_file, ignore_patterns):
+                continue
             absolute_file_path = os.path.join(root, file)
             if is_text_file(absolute_file_path):
-                relative_path = os.path.relpath(absolute_file_path, directory_path)
-                text_files.append(relative_path)
+                text_files.append(rel_file)
     return text_files
 
 def generate_summary(directory_path, text_files):
