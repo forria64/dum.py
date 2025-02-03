@@ -19,6 +19,10 @@ def is_text_file(file_path):
     # Check if the file has a `.rs` extension
     if file_path.endswith('.rs'):
         return True
+    if file_path.endswith('.js'):
+        return True
+    if file_path.endswith('.json'):
+        return True
 
     mime_type, _ = mimetypes.guess_type(file_path)
     if mime_type and not mime_type.startswith('text/'):
