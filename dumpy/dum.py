@@ -35,6 +35,16 @@ def is_text_file(file_path):
     return True
 
 def load_gitignore_patterns(directory_path):
+    """
+    Loads ignore patterns from a .gitignore file in the given directory.
+    Also ensures that the .git directory is always ignored.
+    
+    Args:
+        directory_path (str): The root directory to look for .gitignore.
+    
+    Returns:
+        list: A list of ignore patterns.
+    """
     patterns = []
     gitignore_path = os.path.join(directory_path, ".gitignore")
     if os.path.exists(gitignore_path):
@@ -47,6 +57,9 @@ def load_gitignore_patterns(directory_path):
                     patterns.append(line)
         except Exception as e:
             print(f"Error reading .gitignore: {e}")
+    # Always ignore the .git directory.
+    if ".git/" not in patterns and ".git" not in patterns:
+        patterns.append(".git/")
     return patterns
 
 
