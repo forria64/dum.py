@@ -82,10 +82,10 @@ def is_ignored(relative_path, ignore_patterns):
     norm_path = relative_path.replace(os.sep, "/")
     for pattern in ignore_patterns:
         if pattern.endswith("/"):
-            # For directory patterns, remove the trailing slash.
-            pat = pattern.rstrip("/")
-            # Check if any component of the path equals the pattern.
-            if pat in norm_path.split("/"):
+            # For directory patterns, extract the basename.
+            base = os.path.basename(pattern.rstrip("/"))
+            # Check if any component of the path matches the directory basename.
+            if base in norm_path.split("/"):
                 return True
         else:
             # For other patterns, try matching against the full path or its basename.
